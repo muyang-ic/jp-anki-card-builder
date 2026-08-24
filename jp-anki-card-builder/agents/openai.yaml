@@ -1,0 +1,7 @@
+interface:
+  display_name: "JP Anki Card Builder"
+  short_description: "Build validated Japanese Anki cards with audio"
+  default_prompt: "Use $jp-anki-card-builder to turn this Japanese vocabulary list into an Anki-ready TSV and audio package."
+
+policy:
+  allow_implicit_invocation: true
