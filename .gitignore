@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+runtime/
+
+anki_import.tsv
+anki_import.pending.tsv
+media/
+manifest.json
+audio_report.json
+validation.json
+import_report.json
+
+jp_anki_profile.json
+jp_anki_state.json
+*.zip
