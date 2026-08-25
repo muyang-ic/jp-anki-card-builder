@@ -353,7 +353,7 @@ py "$SkillRoot\scripts\self_test.py"
 成功结果：
 
 ```json
-{"status": "ok", "tests": 16}
+{"status": "ok", "tests": 19}
 ```
 
 还可以检查 Skill 的结构：
