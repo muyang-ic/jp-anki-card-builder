@@ -13,6 +13,7 @@
 - 每张卡生成 3 个 MP3：词汇 1 个、例句 2 个
 - 音频全部成功后才生成最终 `anki_import.tsv`
 - 支持手动导入，也可在明确授权后通过 AnkiConnect 导入
+- 附带可直接粘贴到 Anki 的 36 字段配套模板
 
 ## 目录结构
 
@@ -21,6 +22,14 @@ jp-anki-card-builder/
 ├─ SKILL.md
 ├─ agents/
 │  └─ openai.yaml
+├─ assets/
+│  └─ anki-note-type/
+│     ├─ front.html
+│     ├─ back.html
+│     ├─ styling.css
+│     ├─ fields.txt
+│     ├─ README.md
+│     └─ THIRD_PARTY_NOTICE.md
 ├─ references/
 │  ├─ anki-integration.md
 │  ├─ card-schema.md
@@ -46,6 +55,14 @@ jp-anki-card-builder/
 - 手动导入需要 Anki；自动导入还需要 AnkiConnect
 
 本 Skill 使用 `edge-tts==7.2.8`。`edge-tts` 是微软在线语音服务的 Python 客户端，并不是可离线下载的语音模型。依赖包可以离线安装，但实际合成 MP3 时仍然需要网络连接。
+
+## 安装配套 Anki 模板
+
+模板文件位于 [`jp-anki-card-builder/assets/anki-note-type`](jp-anki-card-builder/assets/anki-note-type)。按照其中的 [`README.md`](jp-anki-card-builder/assets/anki-note-type/README.md) 建立字段并粘贴正面、背面和样式即可。
+
+模板笔记类型有 36 个字段；生成器仍严格输出前 27 列。导入时将这 27 列映射到同名字段，后面的第四条例句、词频和备用卡片字段保持为空。这样既兼容现有生成流程，也保留模板的扩展能力。
+
+模板代码包含原项目的在线版本检查、反馈链接、外部词典和在线 TTS 回退。仅使用本 Skill 生成的本地 MP3 时，可在模板配置中关闭在线 TTS。来源、许可和具体网络行为见模板目录的 `THIRD_PARTY_NOTICE.md`。
 
 ## 安装 Skill
 
@@ -336,7 +353,7 @@ py "$SkillRoot\scripts\self_test.py"
 成功结果：
 
 ```json
-{"status": "ok", "tests": 13}
+{"status": "ok", "tests": 16}
 ```
 
 还可以检查 Skill 的结构：
