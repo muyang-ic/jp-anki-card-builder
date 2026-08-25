@@ -76,6 +76,10 @@ Every data row has exactly 27 fields in this order:
 
 The import file uses Anki comment directives such as `#separator:Tab`, `#html:true`, and `#columns:...`. These directive lines are not data rows and do not alter the 27-field invariant.
 
+## Companion note type
+
+The bundled template in `assets/anki-note-type/` defines 36 fields. Its first 27 fields exactly match the TSV columns above. The remaining fields (`SentType4` through `SentAudio4`, `Frequency`, `Alt1`, and `Alt2`) are optional template extensions and remain blank when importing generated TSV files. Do not append empty columns 28–36 to generated batches.
+
 ## Furigana invariants
 
 - `VocabFurigana` is reading-only kana and contains no kanji. Hiragana is preferred; conventional katakana and `ー` are allowed for loanwords.
