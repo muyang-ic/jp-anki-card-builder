@@ -20,6 +20,11 @@ class AnkiConnectError(RuntimeError):
     pass
 
 
+def model_fields_compatible(fields: list[str]) -> bool:
+    """Accept the exact 27-field model or a model with those fields as its prefix."""
+    return fields[: len(COLUMNS)] == COLUMNS
+
+
 def invoke(url: str, api_key: str, action: str, **params: Any) -> Any:
     payload: dict[str, Any] = {"action": action, "version": 6, "params": params}
     if api_key:
@@ -107,8 +112,10 @@ def preflight(
     if notetype not in invoke(url, api_key, "modelNames"):
         raise AnkiConnectError(f"Anki note type does not exist: {notetype}")
     fields = invoke(url, api_key, "modelFieldNames", modelName=notetype)
-    if fields != COLUMNS:
-        raise AnkiConnectError("Anki note type fields do not exactly match the 27-field schema")
+    if not model_fields_compatible(fields):
+        raise AnkiConnectError(
+            "the first 27 Anki note type fields do not match the required schema"
+        )
     notes, note_ids = load_notes(package_dir, manifest)
     can_add = invoke(url, api_key, "canAddNotes", notes=notes)
     blocked = [note_ids[index] for index, allowed in enumerate(can_add) if not allowed]
