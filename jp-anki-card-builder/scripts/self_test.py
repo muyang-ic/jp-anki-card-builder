@@ -11,6 +11,7 @@ import tempfile
 from pathlib import Path
 
 from anki_common import COLUMNS, atomic_write_json, audio_filename, read_anki_tsv, read_json
+from anki_connect import model_fields_compatible
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -133,6 +134,9 @@ def main() -> int:
         (TEMPLATE_DIR / filename).read_text(encoding="utf-8").strip()
         for filename in ("front.html", "back.html", "styling.css")
     )
+    assert model_fields_compatible(COLUMNS)
+    assert model_fields_compatible(template_fields)
+    assert not model_fields_compatible([COLUMNS[1], COLUMNS[0], *COLUMNS[2:]])
 
     with tempfile.TemporaryDirectory(prefix="jp-anki-self-test-") as temp_name:
         root = Path(temp_name)
@@ -215,7 +219,7 @@ def main() -> int:
         )
         assert "vocab_furigana contains kanji" in rejected.stderr
 
-    print(json.dumps({"status": "ok", "tests": 16}, ensure_ascii=False))
+    print(json.dumps({"status": "ok", "tests": 19}, ensure_ascii=False))
     return 0
 
 
