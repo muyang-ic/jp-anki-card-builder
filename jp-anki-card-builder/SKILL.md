@@ -1,6 +1,6 @@
 ---
 name: jp-anki-card-builder
-description: Build validated Japanese vocabulary cards as a 27-field Anki TSV with furigana, Chinese definitions, natural cross-review examples, and generated audio. Use when the user supplies Japanese vocabulary or asks to prepare, validate, package, or optionally import a Japanese Anki batch; do not use for general Anki troubleshooting or unrelated flashcards.
+description: Build validated Japanese vocabulary cards as a 27-field Anki TSV with furigana, Chinese definitions, natural cross-review examples, generated audio, and a companion Anki template. Use when the user supplies Japanese vocabulary or asks to prepare, validate, package, template, or optionally import a Japanese Anki batch; do not use for general Anki troubleshooting or unrelated flashcards.
 ---
 
 # JP Anki Card Builder
@@ -17,6 +17,12 @@ Turn a Japanese vocabulary list into one import-ready TSV plus its MP3 media. Ke
 6. Ensure a reusable audio runtime exists with `scripts/setup_runtime.py` on first use, then run `scripts/generate_audio.py` with that runtime's Python. It derives speech from exact kana readings and promotes the pending TSV to `anki_import.tsv` only after every MP3 succeeds.
 7. Run `scripts/validate_package.py --require-audio`. Repair only failed cards or audio entries, rebuild, and revalidate. Do not deliver a partial package.
 8. Return the final TSV and the media directory. Keep intermediate JSON, manifests, and diagnostics out of the user-facing handoff unless they help explain a failure.
+
+## Companion template
+
+- For template installation or sharing, use `assets/anki-note-type/` and read its `README.md`.
+- The companion note type has 36 fields. The generated TSV intentionally remains 27 columns and maps to fields 1–27; fields 28–36 are optional extensions and remain blank.
+- Do not change the 27-column serialization contract merely because the template exposes optional fourth-sentence, frequency, or alternate-card fields.
 
 ## Interaction
 
