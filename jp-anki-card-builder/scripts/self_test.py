@@ -14,6 +14,7 @@ from anki_common import COLUMNS, atomic_write_json, audio_filename, read_anki_ts
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
+TEMPLATE_DIR = SCRIPT_DIR.parent / "assets" / "anki-note-type"
 
 
 def run(*arguments: str, expect: int = 0) -> subprocess.CompletedProcess[str]:
@@ -125,6 +126,14 @@ def sample_cards() -> dict[str, object]:
 
 
 def main() -> int:
+    template_fields = (TEMPLATE_DIR / "fields.txt").read_text(encoding="utf-8").splitlines()
+    assert len(template_fields) == 36
+    assert template_fields[: len(COLUMNS)] == COLUMNS
+    assert all(
+        (TEMPLATE_DIR / filename).read_text(encoding="utf-8").strip()
+        for filename in ("front.html", "back.html", "styling.css")
+    )
+
     with tempfile.TemporaryDirectory(prefix="jp-anki-self-test-") as temp_name:
         root = Path(temp_name)
         cards_path = root / "cards.json"
@@ -206,7 +215,7 @@ def main() -> int:
         )
         assert "vocab_furigana contains kanji" in rejected.stderr
 
-    print(json.dumps({"status": "ok", "tests": 13}, ensure_ascii=False))
+    print(json.dumps({"status": "ok", "tests": 16}, ensure_ascii=False))
     return 0
 
 
